@@ -8,7 +8,7 @@ const Variant = sequelize.define(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     productId: { type: DataTypes.INTEGER, allowNull: false, references: { model: Product, key: 'id' } },
-    sku: { type: DataTypes.STRING, unique: true, allowNull: false },
+    sku: { type: DataTypes.STRING, unique: 'unique_sku_index', allowNull: false },
     color: { type: DataTypes.STRING },
     size: { type: DataTypes.STRING },
     priceAdjustment: { type: DataTypes.DECIMAL(10, 2), default: 0 },
