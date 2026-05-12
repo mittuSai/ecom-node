@@ -6,15 +6,18 @@ const CartItem = require("./models/CartItem");
 const { Sequelize, json } = require("sequelize");
 const productRoutes = require("./routes/ProductRoutes");
 const variantRoutes = require("./routes/VariantRoutes");
+const AuthRoutes = require("./routes/Authroutes");
 
+const authMiddleware = require("./middleware/authMiddleware");
 const app = express();
 app.use(express.json());
 
 // Routes
-app.use("/api/products", productRoutes);
-app.use("/api/variants", variantRoutes);
+app.use("/api", AuthRoutes);
+app.use("/api/products", authMiddleware, productRoutes);
+app.use("/api/variants", authMiddleware, variantRoutes);
 
-db.sync({ alter: true })
+db.sync({ alter: false })
   .then(() => {
     console.log("all Table Migrated / updated");
   })

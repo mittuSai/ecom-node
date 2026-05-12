@@ -15,4 +15,20 @@ const Product = sequelize.define(
     timestamps: true,
   },
 );
+// Convert image path to full URL
+Product.prototype.toJSON = function () {
+  const values = { ...this.get() };
+
+  if (values.image) {
+    const isFullUrl = /^https?:\/\//i.test(values.image);
+
+    if (!isFullUrl) {
+      const baseUrl = process.env.APP_URL.replace(/\/$/, "");
+
+      values.image = `${baseUrl}${values.image}`;
+    }
+  }
+
+  return values;
+};
 module.exports = Product;
